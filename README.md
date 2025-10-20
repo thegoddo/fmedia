@@ -15,7 +15,7 @@ with vlc and peerflix.
 npm install -g peerflix
 ```
 
--- Install VLC
+- Install VLC
 
 ```bash
 # Fedora/RedHat
@@ -28,7 +28,7 @@ apt install vlc
 winget install vlc
 ```
 
--- Run this script
+- Run this script
 
 ```bash
 python main.py
