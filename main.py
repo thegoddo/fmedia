@@ -1,4 +1,5 @@
 from io import StringIO
+import subprocess
 from bs4 import BeautifulSoup
 import pandas as pd
 import requests
@@ -30,8 +31,24 @@ def main():
         target_df = df_table.iloc[index_loc]
         movie_id = target_df['ID']
         magnet = find_magnet(table, movie_id)
+        stream_torrent_to_vlc(magnet)
 
     print(magnet)
+
+
+def stream_torrent_to_vlc(magnet_link):
+    command = f'peerflix "{magnet_link}" -l| vlc -'
+    # command = f'peerflix -l -k "{magnet_link}"'
+    # command = f'qbittorrent "{magnet_link}"'
+
+    try:
+        subprocess.run(command, shell=True, check=True)
+
+    except subprocess.CalledProcessError as e:
+        print(f"Streaming command failed with error code: {e.returncode}")
+        print("Ensure 'peerflix' and 'vlc' is installed in your computer and accessible from your computer system path.")
+    except FileNotFoundError:
+        print("Error: 'Peerflix' or 'vlc' command not found. Check your PATH")
 
 
 def find_magnet(table, movie_id):
